@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class AdventureHelpers {
     //make arrayList to hold items that user picks up
-    private static ArrayList<String> myItems;
+    public static ArrayList<String> myItems = new ArrayList<>();
 
     /**
      * This method holds the actual gameplay for the Adventure game
@@ -19,7 +19,7 @@ public class AdventureHelpers {
      */
     public static void playGame(Layout gameLayout) {
         Scanner keyboard = new Scanner(System.in);
-        myItems = new ArrayList<>();
+        myItems.clear();
 
         //set currentRoom to starting room before gameplay begins
         Room currentRoom = findStartingRoom(gameLayout);

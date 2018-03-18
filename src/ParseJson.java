@@ -57,7 +57,7 @@ public class ParseJson {
      * @throws UnirestException
      * @throws MalformedURLException
      */
-    static void makeApiRequest(String url) throws UnirestException, MalformedURLException {
+    static Layout makeApiRequest(String url) throws UnirestException, MalformedURLException {
         final HttpResponse<String> stringHttpResponse;
 
         // throws MalformedURLException if the url is malformed
@@ -69,47 +69,36 @@ public class ParseJson {
         if (stringHttpResponse.getStatus() == STATUS_OK) {
             String json = stringHttpResponse.getBody();
             Gson gson = new Gson();
-            final Layout gameLayout = gson.fromJson(json, Layout.class);
-            AdventureHelpers.playGame(gameLayout);
+            return gson.fromJson(json, Layout.class);
+
         }
+        return null;
     }
 
-    public static void loadSimulation() {
-        Scanner keyboard = new Scanner(System.in);
-        System.out.println("Welcome to the Adventure Game! Enter a url to load up your custom JSON " +
-                "or enter 'N' to play the Siebel simulation!");
-        String url = keyboard.nextLine();
+    public static Layout loadSimulation(String url) {
 
-        //check if url is N for siebel simulation: if T, loads siebel simulation
-        if (url.toUpperCase().equals("N")) {
-            url = "https://courses.engr.illinois.edu/cs126/adventure/siebel.json";
-        }
+
         //parses json into objects
-        int sentinel = 0;
-        while (sentinel < 1) {
+        boolean validRequest = false;
+        while (!validRequest) {
             // Make an HTTP request to the above URL
             try {
-                makeApiRequest(url);
-                sentinel = 1;
+                return makeApiRequest(url);
             } catch (UnirestException e) {
                 System.out.println("Network not responding. Please try again");
             } catch (MalformedURLException e) {
                 System.out.println("Bad URL: " + url);
                 System.out.println(("Please try another url"));
             }
-            sentinel = 0;
-            if (sentinel == 0) {
+            if (!validRequest) {
+                Scanner keyboard = new Scanner(System.in);
                 url = keyboard.next();
                 if (url.toUpperCase().equals("N")) {
-                    String json = getFileContentsAsString("siebel.json");
-                    Gson gson = new Gson();
-                    final Layout gameLayout = gson.fromJson(json, Layout.class);
-                    AdventureHelpers.playGame(gameLayout);
+                    url = "https://courses.engr.illinois.edu/cs126/adventure/siebel.json";
                 }
             }
         }
-
         System.exit(0);
-
+        return null;
     }
 }
