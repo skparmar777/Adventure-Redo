@@ -29,6 +29,7 @@ public class AdventureHelpersTest {
 
     @Test
     public void dropItem() {
+        AdventureHelpers.myItems.clear();
         String userInput = "take coin";
         String[] parsedInput = userInput.trim().toUpperCase().split(" ");
         Room currentRoom = AdventureHelpers.findStartingRoom(gameLayout);
