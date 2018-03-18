@@ -6,17 +6,26 @@ public class Direction {
     @SerializedName("room")
     private String room;
 
-    /**
-     * direction name getter
-     */
+    public Direction() {
+
+    }
+    public Direction(String name, String nextRoom) {
+        directionName = name;
+        room = nextRoom;
+    }
     public String getDirectionName() {
         return directionName;
     }
-    /**
-     * Room getter
-     */
+
     public String getRoom() {
         return room;
     }
 
+    public void setDirectionName(String directionName) {
+        this.directionName = directionName;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
+    }
 }
